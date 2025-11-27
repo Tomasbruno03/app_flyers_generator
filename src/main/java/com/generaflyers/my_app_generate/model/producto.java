@@ -3,6 +3,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity //Convierte la clase en una tabla MySQL
@@ -13,8 +14,13 @@ public class producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Para que sea autoincremental
     private long Id;
 
+    @NotBlank(message = "El nombre no puede estar Vacio")
     private String nombreProducto;
+
+    @NotBlank(message = "La presentacion no puede ser Vacia")
     private String presentacionProducto;
+
+    @NotBlank(message = "Debe agregar el nombre de la imagen")
     private String nombreImagen;
 
 }
