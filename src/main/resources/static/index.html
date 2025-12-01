@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Flyers - NiNi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                // Aplicamos Montserrat a todo el sitio
+                fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                extend: {
+                    colors: {
+                        niniBlue: '#0a145a',
+                        niniRed: '#d2141e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        iframe { border: none; }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Para Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="text-gray-800 font-sans">
+
+<nav class="bg-niniBlue border-b border-blue-900 shadow-xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
+
+            <div class="flex items-center gap-6">
+                <div class="transform hover:scale-105 transition-transform duration-200 cursor-pointer">
+                    <img src="/img/logo.png" alt="NiNi Mayorista" class="h-10 w-auto object-contain">
+                </div>
+
+                <div class="h-8 w-px bg-blue-800 opacity-50"></div>
+
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-300 text-[10px] font-bold uppercase tracking-[0.2em]">Sistema Interno</span>
+                    <span class="text-white font-extrabold text-xl tracking-tight leading-none">Generador de Ofertas</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+
+                <a href="index.html" class="flex items-center gap-2 px-6 py-2.5 bg-niniRed text-white rounded-full text-sm font-bold shadow-lg shadow-red-900/40 hover:bg-red-600 transition-all transform hover:-translate-y-0.5 border border-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    Generador
+                </a>
+
+                <a href="agregar.html" class="flex items-center gap-2 px-5 py-2.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-full text-sm font-semibold transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                    Agregar Producto
+                </a>
+
+                <a href="modificar.html" class="flex items-center gap-2 px-5 py-2.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-full text-sm font-semibold transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    Modificar
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto p-6 space-y-8 mt-4">
+
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+        <div class="bg-gray-50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-extrabold text-niniBlue flex items-center gap-2">
+                    <span class="text-niniRed text-3xl">1.</span> Configuración de la Oferta
+                </h1>
+                <p class="text-gray-500 mt-1 ml-9 text-sm font-medium">Seleccioná un producto y definí el precio para crear el cartel.</p>
+            </div>
+            <div class="hidden sm:block opacity-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-niniBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="p-8">
+            <div class="mb-8 relative z-20">
+                <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider ml-1">Buscar Producto</label>
+                <div class="relative group">
+                    <input type="text" id="searchInput"
+                           placeholder="Ej: Mayonesa Natura..."
+                           class="w-full text-lg p-4 pl-12 border-2 border-gray-200 rounded-xl focus:border-niniRed focus:ring-4 focus:ring-red-50 outline-none transition-all font-semibold text-gray-700 placeholder-gray-300"
+                           autocomplete="off">
+                    <span class="absolute left-4 top-5 text-gray-400 group-focus-within:text-niniRed transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </span>
+                    <div id="searchSpinner" class="absolute right-4 top-5 hidden">
+                        <div class="spinner border-2 border-gray-300 border-t-niniRed rounded-full w-6 h-6"></div>
+                    </div>
+                </div>
+
+                <div id="resultsList" class="hidden absolute w-full bg-white mt-2 rounded-xl shadow-2xl border border-gray-100 max-h-80 overflow-y-auto z-50 divide-y divide-gray-50"></div>
+            </div>
+
+            <div id="selectedProductCard" class="hidden mb-8 bg-gradient-to-r from-blue-50 to-white border border-blue-100 rounded-xl p-5 flex items-center gap-6 relative shadow-sm">
+                <img id="previewImg" src="" class="w-24 h-24 object-contain bg-white rounded-lg border border-blue-100 p-2 shadow-sm">
+                <div class="flex-1">
+                    <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest bg-blue-100 px-2 py-0.5 rounded-sm">Seleccionado</span>
+                    <h3 id="previewName" class="font-extrabold text-niniBlue text-2xl leading-tight mt-1">Nombre</h3>
+                    <p id="previewPresentation" class="text-gray-600 font-medium">Presentación</p>
+                </div>
+                <button onclick="limpiarSeleccion()" class="text-sm font-bold text-red-600 hover:text-white hover:bg-red-600 px-5 py-2.5 rounded-lg transition border border-red-200 hover:border-red-600">
+                    Cambiar
+                </button>
+            </div>
+
+            <div id="campaignForm" class="opacity-40 pointer-events-none transition-all duration-300 filter grayscale">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider ml-1">Título del Cartel</label>
+                        <input type="text" id="tituloInput" value="SUPER OFERTA FINDE"
+                               class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-niniBlue focus:ring-4 focus:ring-blue-50 outline-none font-bold text-gray-800 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider ml-1">Precio Final</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-4 text-gray-400 font-bold text-xl">$</span>
+                            <input type="number" id="precioInput" placeholder="0000"
+                                   class="w-full p-4 pl-10 border-2 border-gray-200 rounded-xl focus:border-niniRed focus:ring-4 focus:ring-red-50 outline-none font-extrabold text-niniRed text-3xl transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider ml-1">Pie de Página</label>
+                    <input type="text" id="footerInput" value="Solo efectivo - NiNi Mayorista"
+                           class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-niniBlue outline-none text-gray-600 text-sm font-medium">
+                </div>
+
+                <button id="btnGenerar" onclick="generarFlyer()"
+                        class="w-full py-5 bg-gradient-to-r from-niniRed to-red-700 hover:from-red-600 hover:to-niniRed text-white font-extrabold text-xl rounded-xl shadow-lg hover:shadow-2xl shadow-red-900/30 transform hover:-translate-y-1 transition-all active:scale-[0.99] flex justify-center items-center gap-3">
+                    <span>GENERAR FLYER PDF</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                </button>
+                <p id="errorMsg" class="hidden mt-4 text-center text-red-700 font-bold bg-red-50 border border-red-100 p-3 rounded-lg"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border-4 border-gray-800">
+        <div class="bg-gray-900 px-6 py-4 flex justify-between items-center border-b border-gray-700">
+            <h2 class="text-white font-bold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                Vista Previa
+            </h2>
+            <span id="statusBadge" class="text-[10px] uppercase tracking-wider font-bold px-3 py-1 bg-gray-700 text-gray-300 rounded-full border border-gray-600">
+                    Esperando generación...
+                </span>
+        </div>
+
+        <div class="bg-gray-200 relative h-[850px] w-full flex justify-center items-center">
+            <div id="pdfPlaceholder" class="text-center text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto mb-4 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <p class="font-bold text-xl opacity-50">El Flyer aparecerá aquí 👇</p>
+            </div>
+            <iframe id="pdfFrame" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-500"></iframe>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    let selectedProductId = null;
+    let debounceTimer;
+    const searchInput = document.getElementById('searchInput');
+    const resultsList = document.getElementById('resultsList');
+    const campaignForm = document.getElementById('campaignForm');
+    const searchSpinner = document.getElementById('searchSpinner');
+
+    searchInput.addEventListener('keyup', (e) => {
+        const texto = e.target.value.trim();
+        clearTimeout(debounceTimer);
+        if (texto.length < 2) {
+            resultsList.classList.add('hidden');
+            searchSpinner.classList.add('hidden');
+            return;
+        }
+        searchSpinner.classList.remove('hidden');
+        debounceTimer = setTimeout(() => {
+            buscarEnBackend(texto);
+        }, 300);
+    });
+
+    async function buscarEnBackend(texto) {
+        try {
+            const response = await fetch(`http://localhost:8080/api/productos/buscar?nombre=${texto}`);
+            const productos = await response.json();
+            renderizarResultados(productos);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            searchSpinner.classList.add('hidden');
+        }
+    }
+
+    function renderizarResultados(productos) {
+        resultsList.innerHTML = '';
+        if (productos.length === 0) {
+            resultsList.innerHTML = '<div class="p-4 text-gray-500 font-medium text-sm">No se encontraron productos.</div>';
+            resultsList.classList.remove('hidden');
+            return;
+        }
+        productos.forEach(prod => {
+            const div = document.createElement('div');
+            div.className = 'p-4 border-b border-gray-50 flex items-center gap-4 hover:bg-blue-50 cursor-pointer transition-colors group';
+            const imgUrl = `http://localhost:8080/uploads/${prod.nombreImagen}`;
+            div.innerHTML = `
+                <img src="${imgUrl}" class="w-12 h-12 object-contain bg-white rounded border border-gray-200 p-0.5" onerror="this.src='https://via.placeholder.com/48'">
+                <div>
+                    <p class="font-bold text-niniBlue group-hover:text-blue-700 text-sm">${prod.nombreProducto}</p>
+                    <p class="text-xs text-gray-500 font-medium">${prod.presentacionProducto}</p>
+                </div>
+            `;
+            div.onclick = () => seleccionarProducto(prod);
+            resultsList.appendChild(div);
+        });
+        resultsList.classList.remove('hidden');
+    }
+
+    function seleccionarProducto(prod) {
+        selectedProductId = prod.id;
+        document.getElementById('previewImg').src = `http://localhost:8080/uploads/${prod.nombreImagen}`;
+        document.getElementById('previewName').textContent = prod.nombreProducto;
+        document.getElementById('previewPresentation').textContent = prod.presentacionProducto;
+        document.getElementById('selectedProductCard').classList.remove('hidden');
+        searchInput.value = '';
+        resultsList.classList.add('hidden');
+        campaignForm.classList.remove('opacity-40', 'pointer-events-none', 'filter', 'grayscale');
+        document.getElementById('precioInput').focus();
+    }
+
+    function limpiarSeleccion() {
+        selectedProductId = null;
+        document.getElementById('selectedProductCard').classList.add('hidden');
+        campaignForm.classList.add('opacity-40', 'pointer-events-none', 'filter', 'grayscale');
+        document.getElementById('pdfFrame').src = '';
+        document.getElementById('pdfFrame').classList.add('opacity-0');
+        document.getElementById('pdfPlaceholder').classList.remove('hidden');
+        document.getElementById('statusBadge').textContent = "Esperando generación...";
+        document.getElementById('statusBadge').className = "text-[10px] uppercase tracking-wider font-bold px-3 py-1 bg-gray-700 text-gray-300 rounded-full border border-gray-600";
+    }
+
+    async function generarFlyer() {
+        const btn = document.getElementById('btnGenerar');
+        const errorMsg = document.getElementById('errorMsg');
+        const statusBadge = document.getElementById('statusBadge');
+        const pdfFrame = document.getElementById('pdfFrame');
+        const pdfPlaceholder = document.getElementById('pdfPlaceholder');
+
+        if (!selectedProductId) return;
+
+        const datos = {
+            productoId: selectedProductId,
+            titulo: document.getElementById('tituloInput').value,
+            precio: document.getElementById('precioInput').value,
+            footer: document.getElementById('footerInput').value
+        };
+
+        if(!datos.precio) {
+            errorMsg.textContent = "⚠️ ¡Falta el precio!";
+            errorMsg.classList.remove('hidden');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<div class="spinner border-4 border-white border-t-transparent rounded-full w-6 h-6 mr-3"></div> TRABAJANDO...';
+        errorMsg.classList.add('hidden');
+        statusBadge.textContent = "Generando PDF...";
+        statusBadge.className = "text-[10px] uppercase tracking-wider font-bold px-3 py-1 bg-yellow-600 text-white rounded-full animate-pulse";
+
+        try {
+            const response = await fetch('http://localhost:8080/api/flyers/generar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const pdfUrl = URL.createObjectURL(blob);
+                pdfFrame.src = pdfUrl;
+
+                pdfPlaceholder.classList.add('hidden');
+                pdfFrame.classList.remove('opacity-0');
+
+                statusBadge.textContent = "¡LISTO! ✅";
+                statusBadge.className = "text-[10px] uppercase tracking-wider font-bold px-3 py-1 bg-green-600 text-white rounded-full";
+
+                pdfFrame.scrollIntoView({ behavior: 'smooth' });
+
+            } else {
+                throw new Error('Error en el servidor');
+            }
+        } catch (err) {
+            console.error(err);
+            errorMsg.textContent = "Error al generar el PDF.";
+            errorMsg.classList.remove('hidden');
+            statusBadge.textContent = "ERROR ❌";
+            statusBadge.className = "text-[10px] uppercase tracking-wider font-bold px-3 py-1 bg-red-600 text-white rounded-full";
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span>GENERAR FLYER PDF</span> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>';
+        }
+    }
+    const precioInput = document.getElementById('precioInput');
+
+        // BLOQUEO DE RUEDITA DEL MOUSE (SCROLL)
+        // Evita que al scrollear sobre el input cambie el número
+        precioInput.addEventListener('wheel', function(e) {
+            e.preventDefault();
+        });
+
+        // BLOQUEO DE FLECHAS DEL TECLADO (UP/DOWN)
+        // Evita que al tocar flecha arriba/abajo cambie el número
+        precioInput.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();
+            }
+        });
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@ public class FlyerDto {
     private Long productoId; // ID del producto que queremos usar (ej: 1)
     private String titulo;   //
     private String precio;   // "1500"
-    private String PiePagina;   // "
+    private String footer;   // "
 
 
     public Long getProductoId() { return productoId; }
@@ -13,12 +13,6 @@ public class FlyerDto {
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public String getPrecio() { return precio; }
     public void setPrecio(String precio) { this.precio = precio; }
-
-    public String getPiePagina() {
-        return PiePagina;
-    }
-    public void setPiePagina(String PP)
-    {
-        PiePagina=PP;
-    }
+    public String getFooter() { return footer; }
+    public void setFooter(String footer) { this.footer = footer; }
 }

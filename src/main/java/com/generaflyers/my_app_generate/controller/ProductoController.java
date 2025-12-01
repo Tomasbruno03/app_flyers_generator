@@ -71,4 +71,9 @@ public class ProductoController {
     public List<Producto> listarProductos() {
         return productoRepository.findAll();
     }
+
+    @GetMapping("/buscar")
+    public List<Producto> buscarProductos(@RequestParam String nombre) {
+        return productoRepository.findByNombreProductoContainingIgnoreCase(nombre);
+    }
 }

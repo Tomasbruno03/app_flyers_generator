@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Producto - NiNi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                extend: {
+                    colors: {
+                        niniBlue: '#0a145a',
+                        niniRed: '#d2141e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="text-gray-800 font-sans">
+
+<nav class="bg-niniBlue border-b border-blue-900 shadow-xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
+            <div class="flex items-center gap-6">
+                <div class="transform hover:scale-105 transition-transform duration-200 cursor-pointer">
+                    <img src="/img/logo.png" alt="NiNi Mayorista" class="h-10 w-auto object-contain">
+                </div>
+                <div class="h-8 w-px bg-blue-800 opacity-50"></div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-300 text-[10px] font-bold uppercase tracking-[0.2em]">Sistema Interno</span>
+                    <span class="text-white font-extrabold text-xl tracking-tight leading-none">Generador de Ofertas</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 px-5 py-2.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-full text-sm font-semibold transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    Generador
+                </a>
+
+                <a href="agregar.html" class="flex items-center gap-2 px-6 py-2.5 bg-niniRed text-white rounded-full text-sm font-bold shadow-lg shadow-red-900/40 hover:bg-red-600 transition-all transform hover:-translate-y-0.5 border border-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                    Agregar Producto
+                </a>
+
+                <a href="modificar.html" class="flex items-center gap-2 px-5 py-2.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-full text-sm font-semibold transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    Modificar
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-3xl mx-auto p-8 mt-10">
+
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+        <div class="bg-gray-50 px-8 py-6 border-b border-gray-100">
+            <h1 class="text-2xl font-extrabold text-niniBlue flex items-center gap-2">
+                <span class="text-niniRed text-3xl">➕</span> Nuevo Producto
+            </h1>
+            <p class="text-gray-500 mt-2 text-sm font-medium">Ingresá los datos del producto y subí su imagen para agregarlo al catálogo.</p>
+        </div>
+
+        <div class="p-8">
+            <form id="formAgregar" class="space-y-6">
+
+                <div>
+                    <label for="nombre" class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Nombre del Producto</label>
+                    <input type="text" id="nombre" name="nombre"
+                           class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-niniBlue focus:ring-4 focus:ring-blue-50 outline-none font-bold text-gray-800 transition-all"
+                           placeholder="Ej: Galletitas Oreo">
+                </div>
+
+                <div>
+                    <label for="presentacion" class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Presentación</label>
+                    <input type="text" id="presentacion" name="presentacion"
+                           class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-niniBlue focus:ring-4 focus:ring-blue-50 outline-none font-medium text-gray-800 transition-all"
+                           placeholder="Ej: Paquete 117g">
+                </div>
+
+                <div>
+                    <label for="imagen" class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Imagen del Producto</label>
+                    <input type="file" id="imagen" name="imagen" accept="image/*"
+                           class="w-full p-3 border-2 border-gray-200 rounded-xl bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-niniBlue file:text-white hover:file:bg-blue-700 cursor-pointer">
+                    <p class="text-xs text-gray-400 mt-2 ml-2">Formatos recomendados: JPG o PNG. Preferentemente con fondo blanco o transparente.</p>
+                </div>
+
+                <button type="submit" id="btnGuardar"
+                        class="w-full py-5 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-600 text-white font-extrabold text-xl rounded-xl shadow-lg hover:shadow-2xl shadow-green-900/30 transform hover:-translate-y-1 transition-all active:scale-[0.99] flex justify-center items-center gap-3 mt-8">
+                    <span>GUARDAR PRODUCTO</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+                </button>
+            </form>
+
+            <div id="mensajeExito" class="hidden mt-6 p-4 bg-green-100 border border-green-200 text-green-800 rounded-xl text-center font-bold"></div>
+            <div id="mensajeError" class="hidden mt-6 p-4 bg-red-100 border border-red-200 text-red-800 rounded-xl text-center font-bold"></div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const form = document.getElementById('formAgregar');
+    const btnGuardar = document.getElementById('btnGuardar');
+    const mensajeExito = document.getElementById('mensajeExito');
+    const mensajeError = document.getElementById('mensajeError');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Evita que la página se recargue
+
+        // Limpiar mensajes previos
+        mensajeExito.classList.add('hidden');
+        mensajeError.classList.add('hidden');
+
+        // 1. Obtener datos del formulario
+        const nombre = document.getElementById('nombre').value.trim();
+        const presentacion = document.getElementById('presentacion').value.trim();
+        const imagenInput = document.getElementById('imagen');
+
+        // 2. Validaciones básicas en el frontend
+        if (!nombre || !presentacion) {
+            mostrarError("Por favor, completá el nombre y la presentación.");
+            return;
+        }
+        if (imagenInput.files.length === 0) {
+            mostrarError("¡Te olvidaste de seleccionar la imagen!");
+            return;
+        }
+
+        // 3. Preparar los datos para enviar (FormData es necesario para archivos)
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('presentacion', presentacion);
+        formData.append('imagen', imagenInput.files[0]); // Añade el archivo seleccionado
+
+        // 4. UI de carga
+        setLoading(true);
+
+        try {
+            // 5. Enviar solicitud POST al backend
+            const response = await fetch('/api/productos', {
+                method: 'POST',
+                body: formData // ¡Importante! No establecer 'Content-Type', el navegador lo hace automáticamente con FormData
+            });
+
+            if (response.ok) {
+                const nuevoProducto = await response.json();
+                mostrarExito(`¡Producto "${nuevoProducto.nombreProducto}" guardado correctamente!`);
+                form.reset(); // Limpiar el formulario
+            } else {
+                // Intentar obtener mensaje de error del servidor si es posible
+                let errorMsg = "Error al guardar el producto en el servidor.";
+                try {
+                    const errorData = await response.json();
+                    if(errorData && errorData.message) errorMsg = errorData.message;
+                } catch(e) { /* Ignorar si no es JSON */ }
+                throw new Error(errorMsg);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            mostrarError(error.message || "Ocurrió un error inesperado. Intentá nuevamente.");
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    // Funciones auxiliares para la UI
+    function mostrarError(mensaje) {
+        mensajeError.textContent = `⚠️ ${mensaje}`;
+        mensajeError.classList.remove('hidden');
+    }
+
+    function mostrarExito(mensaje) {
+        mensajeExito.textContent = `✅ ${mensaje}`;
+        mensajeExito.classList.remove('hidden');
+    }
+
+    function setLoading(loading) {
+        if (loading) {
+            btnGuardar.disabled = true;
+            btnGuardar.innerHTML = '<div class="spinner border-4 border-white border-t-transparent rounded-full w-6 h-6 mr-3"></div> GUARDANDO...';
+            btnGuardar.classList.add('opacity-75', 'cursor-not-allowed');
+        } else {
+            btnGuardar.disabled = false;
+            btnGuardar.innerHTML = '<span>GUARDAR PRODUCTO</span> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>';
+            btnGuardar.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+    }
+</script>
+
+</body>
+</html>
