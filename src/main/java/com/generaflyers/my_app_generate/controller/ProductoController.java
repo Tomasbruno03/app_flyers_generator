@@ -76,4 +76,57 @@ public class ProductoController {
     public List<Producto> buscarProductos(@RequestParam String nombre) {
         return productoRepository.findByNombreProductoContainingIgnoreCase(nombre);
     }
+
+    // --- ENDPOINT 4: ACTUALIZAR PRODUCTO (PUT) ---
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarProducto(
+            @PathVariable Long id,
+            @RequestParam("nombre") String nombre,
+            @RequestParam("presentacion") String presentacion,
+            @RequestParam(value = "imagen", required = false) MultipartFile archivoImagen // Es false porque quizás no querés cambiar la foto
+    ) {
+        // 1. Buscamos si existe
+        Producto productoExistente = productoRepository.findById(id).orElse(null);
+        if (productoExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            // 2. Actualizamos datos de texto
+            productoExistente.setNombreProducto(nombre);
+            productoExistente.setPresentacionProducto(presentacion);
+
+            // 3. Lógica de la imagen: Solo la cambiamos si el usuario mandó una nueva
+            if (archivoImagen != null && !archivoImagen.isEmpty()) {
+                String nombreArchivo = System.currentTimeMillis() + "_" + archivoImagen.getOriginalFilename();
+                Path rutaCompleta = Paths.get(RUTA_UPLOADS).resolve(nombreArchivo).toAbsolutePath();
+                Files.copy(archivoImagen.getInputStream(), rutaCompleta, StandardCopyOption.REPLACE_EXISTING);
+
+                // Actualizamos el nombre en la BD
+                productoExistente.setNombreImagen(nombreArchivo);
+            }
+
+            // 4. Guardamos los cambios
+            Producto productoActualizado = productoRepository.save(productoExistente);
+            return ResponseEntity.ok(productoActualizado);
+
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("Error al procesar la imagen");
+        }
+    }
+
+    // --- ENDPOINT 5: ELIMINAR PRODUCTO (DELETE) ---
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarProducto(@PathVariable Long id) {
+        // 1. Buscamos si existe
+        if (!productoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // 2. Borramos de la base de datos
+        // (Opcional: Acá podrías agregar código para borrar también el archivo físico de la carpeta uploads, pero por ahora dejémoslo simple)
+        productoRepository.deleteById(id);
+
+        return ResponseEntity.ok().body("Producto eliminado correctamente");
+    }
 }

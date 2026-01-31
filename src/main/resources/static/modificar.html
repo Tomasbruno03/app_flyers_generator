@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Producto - NiNi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                extend: { colors: { niniBlue: '#0a145a', niniRed: '#d2141e' } }
+            }
+        }
+    </script>
+    <style>.spinner { animation: spin 1s linear infinite; } @keyframes spin { 100% { transform: rotate(360deg); } }</style>
+</head>
+<body class="text-gray-800 font-sans pb-20">
+
+<nav class="bg-niniBlue border-b border-blue-900 shadow-xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
+            <div class="flex items-center gap-6">
+                <div class="transform hover:scale-105 transition-transform duration-200 cursor-pointer">
+                    <img src="/img/logo.png" alt="NiNi" class="h-10 w-auto object-contain">
+                </div>
+                <div class="h-8 w-px bg-blue-800 opacity-50"></div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-300 text-[10px] font-bold uppercase tracking-[0.2em]">Sistema Interno</span>
+                    <span class="text-white font-extrabold text-xl tracking-tight leading-none">Generador de Ofertas</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 px-5 py-2.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-full text-sm font-semibold transition-all">Generador</a>
+                <a href="agregar.html" class="flex items-center gap-2 px-5 py-2.5 text-blue-200 hover:text-white hover:bg-white/10 rounded-full text-sm font-semibold transition-all">Agregar Producto</a>
+                <a href="modificar.html" class="flex items-center gap-2 px-6 py-2.5 bg-yellow-500 text-niniBlue rounded-full text-sm font-bold shadow-lg hover:bg-yellow-400 transition-all transform hover:-translate-y-0.5 border border-yellow-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                    Modificar
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-3xl mx-auto p-8 mt-6">
+
+    <div class="mb-10 relative">
+        <h2 class="text-2xl font-extrabold text-niniBlue mb-4">1. Buscá el producto a editar</h2>
+        <div class="relative group">
+            <input type="text" id="searchInput"
+                   placeholder="Escribí el nombre... (ej: Mayonesa)"
+                   class="w-full text-lg p-4 pl-12 border-2 border-gray-300 rounded-xl focus:border-yellow-500 focus:ring-4 focus:ring-yellow-50 outline-none transition-all font-semibold"
+                   autocomplete="off">
+            <span class="absolute left-4 top-5 text-gray-400 group-focus-within:text-yellow-600 transition-colors">🔍</span>
+        </div>
+        <div id="resultsList" class="hidden absolute w-full bg-white mt-2 rounded-xl shadow-2xl border border-gray-100 max-h-80 overflow-y-auto z-50 divide-y divide-gray-50"></div>
+    </div>
+
+    <div id="editCard" class="hidden bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 relative">
+
+        <div class="bg-yellow-50 px-8 py-4 border-b border-yellow-100 flex justify-between items-center">
+            <h3 class="text-xl font-bold text-yellow-800 flex items-center gap-2">
+                ✏️ Editando Producto #<span id="prodIdDisplay"></span>
+            </h3>
+            <button onclick="cancelarEdicion()" class="text-sm font-bold text-gray-500 hover:text-gray-800 underline">Cancelar</button>
+        </div>
+
+        <div class="p-8">
+            <div class="flex items-center gap-6 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                <img id="currentImg" src="" class="w-20 h-20 object-contain bg-white rounded border border-gray-200">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase">Imagen Actual</p>
+                    <p class="text-sm text-gray-500">Si no subís una nueva, se mantiene esta.</p>
+                </div>
+            </div>
+
+            <form id="formEditar" class="space-y-6">
+                <input type="hidden" id="productoId"> <div>
+                <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Nombre</label>
+                <input type="text" id="nombre" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-niniBlue focus:ring-4 focus:ring-blue-50 outline-none font-bold text-gray-800">
+            </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Presentación</label>
+                    <input type="text" id="presentacion" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-niniBlue focus:ring-4 focus:ring-blue-50 outline-none font-medium text-gray-800">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Cambiar Imagen (Opcional)</label>
+                    <input type="file" id="imagen" accept="image/*" class="w-full p-3 border-2 border-gray-200 rounded-xl bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-yellow-500 file:text-white hover:file:bg-yellow-600 cursor-pointer">
+                </div>
+
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="eliminarProducto()" class="flex-1 py-4 bg-white border-2 border-red-100 text-red-600 hover:bg-red-50 font-bold rounded-xl transition-all">
+                        🗑️ ELIMINAR
+                    </button>
+
+                    <button type="submit" id="btnGuardar" class="flex-[2] py-4 bg-niniBlue hover:bg-blue-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex justify-center items-center gap-2">
+                        <span>GUARDAR CAMBIOS</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+    let debounceTimer;
+    const searchInput = document.getElementById('searchInput');
+    const resultsList = document.getElementById('resultsList');
+    const editCard = document.getElementById('editCard');
+
+    // 1. BÚSQUEDA (Reutilizada del Index)
+    searchInput.addEventListener('keyup', (e) => {
+        const texto = e.target.value.trim();
+        clearTimeout(debounceTimer);
+        if (texto.length < 2) {
+            resultsList.classList.add('hidden');
+            return;
+        }
+        debounceTimer = setTimeout(() => buscarEnBackend(texto), 300);
+    });
+
+    async function buscarEnBackend(texto) {
+        try {
+            const res = await fetch(`/api/productos/buscar?nombre=${texto}`);
+            const prods = await res.json();
+            renderizarResultados(prods);
+        } catch (e) { console.error(e); }
+    }
+
+    function renderizarResultados(productos) {
+        resultsList.innerHTML = '';
+        if (productos.length === 0) {
+            resultsList.classList.add('hidden');
+            return;
+        }
+        productos.forEach(prod => {
+            const div = document.createElement('div');
+            div.className = 'p-4 border-b border-gray-50 flex items-center gap-4 hover:bg-yellow-50 cursor-pointer transition-colors group';
+            div.innerHTML = `
+                <img src="/uploads/${prod.nombreImagen}" class="w-10 h-10 object-contain rounded border">
+                <div><p class="font-bold text-niniBlue">${prod.nombreProducto}</p></div>
+            `;
+            div.onclick = () => cargarFormulario(prod);
+            resultsList.appendChild(div);
+        });
+        resultsList.classList.remove('hidden');
+    }
+
+    // 2. CARGAR DATOS EN EL FORMULARIO
+    function cargarFormulario(prod) {
+        // Llenamos los inputs con los datos actuales
+        document.getElementById('productoId').value = prod.id;
+        document.getElementById('prodIdDisplay').textContent = prod.id;
+        document.getElementById('nombre').value = prod.nombreProducto;
+        document.getElementById('presentacion').value = prod.presentacionProducto;
+        document.getElementById('currentImg').src = `/uploads/${prod.nombreImagen}`;
+
+        // Mostramos la tarjeta de edición
+        editCard.classList.remove('hidden');
+        resultsList.classList.add('hidden');
+        searchInput.value = ''; // Limpiamos buscador
+
+        // Scroll suave hacia el formulario
+        editCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function cancelarEdicion() {
+        editCard.classList.add('hidden');
+    }
+
+    // 3. GUARDAR CAMBIOS (PUT)
+    document.getElementById('formEditar').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('productoId').value;
+        const btn = document.getElementById('btnGuardar');
+
+        const formData = new FormData();
+        formData.append('nombre', document.getElementById('nombre').value);
+        formData.append('presentacion', document.getElementById('presentacion').value);
+
+        const fileInput = document.getElementById('imagen');
+        if (fileInput.files.length > 0) {
+            formData.append('imagen', fileInput.files[0]);
+        }
+
+        btn.disabled = true;
+        btn.innerText = "GUARDANDO...";
+
+        try {
+            // NOTA: Usamos PUT.
+            const res = await fetch(`/api/productos/${id}`, {
+                method: 'PUT',
+                body: formData
+            });
+
+            if (res.ok) {
+                alert("¡Producto actualizado correctamente!");
+                location.reload(); // Recargamos para ver cambios
+            } else {
+                alert("Error al actualizar");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error de conexión");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "GUARDAR CAMBIOS";
+        }
+    });
+
+    // 4. ELIMINAR (DELETE)
+    async function eliminarProducto() {
+        const id = document.getElementById('productoId').value;
+        if (!confirm("⚠️ ¿Estás seguro de que querés ELIMINAR este producto?\n\nEsta acción no se puede deshacer.")) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/productos/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (res.ok) {
+                alert("Producto eliminado.");
+                location.reload();
+            } else {
+                alert("No se pudo eliminar.");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+</script>
+
+</body>
+</html>
